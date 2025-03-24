@@ -5,7 +5,7 @@ import NotFound from './routes/helper/404.js'
 import userRouter from './routes/userRouter.js'
 
 const api = Router()
-  .use('/user', userRouter)
+  .use('/users', userRouter)
 
 const routes = Router()
   .use('/api', api)
