@@ -1,82 +1,82 @@
-import User from '../models/userModel.js'
-import httpStatus from 'http-status'
+import User from '../models/userModel.js';
+import httpStatus from 'http-status';
+import {
+  generateHateoasCollection,
+  generateHateoasLinks,
+} from '../services/hateoasService.js';
 
 export const showUser = async (req, res, next) => {
   try {
-    const user = await User.findOne(req.params)
+    const user = await User.findOne(req.params);
 
-    res
-      .status(httpStatus.OK)
-      .json(user)
+    if (!user) {
+      return res.status(httpStatus.NOT_FOUND).json({message: 'Usuário não encontrado'});
+    }
+
+    res.status(httpStatus.OK).json({
+      ...user.toObject(),
+      _links: generateHateoasLinks(req, 'users', user._id),
+    });
   } catch (err) {
-    res
-      .status(httpStatus.INTERNAL_SERVER_ERROR)
-      .json({
-        message: err.message
-      })
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
   }
-}
+};
 
 export const listUsers = async (req, res, next) => {
   try {
-    const users = await User.find()
+    const users = await User.find();
 
-    res
-      .status(httpStatus.OK)
-      .json(users)
+    res.status(httpStatus.OK).json(generateHateoasCollection(req, 'users', users));
   } catch (err) {
-    res
-      .status(httpStatus.INTERNAL_SERVER_ERROR)
-      .json({
-        message: err.message
-      })
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
   }
-}
+};
 
 export const createUser = async (req, res, next) => {
   try {
-    const newUser = await User.create(req.body)
+    const newUser = await User.create(req.body);
 
-    res
-      .status(httpStatus.CREATED)
-      .json(newUser)
+    res.status(httpStatus.CREATED).json({
+      ...newUser.toObject(),
+      _links: generateHateoasLinks(req, 'users', newUser._id),
+    });
   } catch (err) {
-    res
-      .status(httpStatus.INTERNAL_SERVER_ERROR)
-      .json({
-        message: err.message
-      })
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
   }
-}
+};
 
 export const editUser = async (req, res, next) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params, req.body, { new: true })
+    const user = await User.findById(req.params._id);
 
-    res
-      .status(httpStatus.OK)
-      .json(updatedUser)
+    if (!user) {
+      return res.status(httpStatus.NOT_FOUND).
+        json({message: 'Usuário não encontrado'});
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.params, req.body, {new: true});
+
+    res.status(httpStatus.OK).json({
+      ...updatedUser.toObject(),
+      _links: generateHateoasLinks(req, 'users', updatedUser._id),
+    });
   } catch (err) {
-    res
-      .status(httpStatus.INTERNAL_SERVER_ERROR)
-      .json({
-        message: err.message
-      })
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
   }
-}
+};
 
 export const deleteUser = async (req, res, next) => {
   try {
-    await User.deleteOne(req.params)
+    const user = await User.findById(req.params._id);
 
-    res
-      .status(httpStatus.OK)
-      .send()
+    if (!user) {
+      return res.status(httpStatus.NOT_FOUND).json({message: 'Usuário não encontrado'});
+    }
+
+    await User.deleteOne(req.params);
+
+    res.status(httpStatus.OK).send();
   } catch (err) {
-    res
-      .status(httpStatus.INTERNAL_SERVER_ERROR)
-      .json({
-        message: err.message
-      })
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
   }
-}
+};
