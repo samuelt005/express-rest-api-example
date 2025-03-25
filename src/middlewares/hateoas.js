@@ -2,7 +2,6 @@ import httpStatus from "http-status";
 
 export default (req, res, next) => {
   res.hateoas_item = (data) => {
-    console.log(data)
     res.status(httpStatus.OK).json({
       ...data._doc,
       _links: generateHateoasLinks(req, data._id),
