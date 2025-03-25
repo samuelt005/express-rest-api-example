@@ -1,12 +1,11 @@
 import User from '../models/userModel.js';
-import httpStatus from 'http-status';
 
 export const showUser = async (req, res, next) => {
   try {
     const user = await User.findOne(req.params);
 
     if (!user) {
-      return res.status(httpStatus.NOT_FOUND).json({message: 'Usuário não encontrado'});
+      return res.notFoundResponse();
     }
 
     res.hateoas_item(user);
@@ -29,7 +28,7 @@ export const createUser = async (req, res, next) => {
   try {
     await User.create(req.body);
 
-    res.status(httpStatus.CREATED).json();
+    res.createdResponse();
   } catch (err) {
     next(err);
   }
@@ -40,8 +39,7 @@ export const editUser = async (req, res, next) => {
     const user = await User.findById(req.params._id);
 
     if (!user) {
-      return res.status(httpStatus.NOT_FOUND).
-        json({message: 'Usuário não encontrado'});
+      return res.notFoundResponse();
     }
 
     const updatedUser = await User.findByIdAndUpdate(req.params, req.body, {new: true});
@@ -57,12 +55,12 @@ export const deleteUser = async (req, res, next) => {
     const user = await User.findById(req.params._id);
 
     if (!user) {
-      return res.status(httpStatus.NOT_FOUND).json({message: 'Usuário não encontrado'});
+      return res.notFoundResponse();
     }
 
     await User.deleteOne(req.params);
 
-    res.status(httpStatus.OK).send();
+    res.noContentResponse();
   } catch (err) {
     next(err);
   }

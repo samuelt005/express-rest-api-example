@@ -2,14 +2,14 @@ import httpStatus from "http-status";
 
 export default (req, res, next) => {
   res.hateoas_item = (data) => {
-    res.status(httpStatus.OK).json({
+    res.okResponse({
       ...data._doc,
       _links: generateHateoasLinks(req, data._id),
     });
   }
 
   res.hateoas_list = (data) => {
-    res.status(httpStatus.OK).json(generateHateoasCollection(req, data));
+    res.okResponse(generateHateoasCollection(req, data));
   }
 
   next();
