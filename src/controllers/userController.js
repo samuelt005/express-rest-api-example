@@ -15,7 +15,7 @@ export const showUser = async (req, res, next) => {
 
     res.status(httpStatus.OK).json({
       ...user.toObject(),
-      _links: generateHateoasLinks(req, 'users', user._id),
+      _links: generateHateoasLinks(req, user._id),
     });
   } catch (err) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
@@ -26,7 +26,7 @@ export const listUsers = async (req, res, next) => {
   try {
     const users = await User.find();
 
-    res.status(httpStatus.OK).json(generateHateoasCollection(req, 'users', users));
+    res.status(httpStatus.OK).json(generateHateoasCollection(req, users));
   } catch (err) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
   }
@@ -38,7 +38,7 @@ export const createUser = async (req, res, next) => {
 
     res.status(httpStatus.CREATED).json({
       ...newUser.toObject(),
-      _links: generateHateoasLinks(req, 'users', newUser._id),
+      _links: generateHateoasLinks(req, newUser._id),
     });
   } catch (err) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
@@ -58,7 +58,7 @@ export const editUser = async (req, res, next) => {
 
     res.status(httpStatus.OK).json({
       ...updatedUser.toObject(),
-      _links: generateHateoasLinks(req, 'users', updatedUser._id),
+      _links: generateHateoasLinks(req, updatedUser._id),
     });
   } catch (err) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});

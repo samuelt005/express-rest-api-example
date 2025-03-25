@@ -1,39 +1,46 @@
-export const generateHateoasLinks = (req, resource, id) => {
-  const baseUrl = `${req.protocol}://${req.get('host')}/api/${resource}`;
-
-  return {
-    self: {
-      href: `${baseUrl}/${id}`,
+export const generateHateoasLinks = (req, id) => {
+  return [
+    {
+      rel: "self",
+      href: `${req.baseUrl}/${id}`,
+      method: 'GET',
     },
-    edit: {
-      href: `${baseUrl}/${id}`,
+    {
+      rel: "list",
+      href: req.baseUrl,
+      method: 'GET',
+    },
+    {
+      rel: "update",
+      href: `${req.baseUrl}/${id}`,
       method: 'PUT',
     },
-    delete: {
-      href: `${baseUrl}/${id}`,
+    {
+      rel: "delete",
+      href: `${req.baseUrl}/${id}`,
       method: 'DELETE',
     },
-  };
+  ];
 };
 
-export const generateHateoasCollection = (req, resource, items) => {
-  const baseUrl = `${req.protocol}://${req.get('host')}/api/${resource}`;
-
+export const generateHateoasCollection = (req, items) => {
   return {
     count: items.length,
-    _links: {
-      self: {
-        href: baseUrl,
+    _links: [
+      {
+        rel: "self",
+        href: req.baseUrl,
         method: 'GET',
       },
-      create: {
-        href: baseUrl,
+      {
+        rel: "create",
+        href: req.baseUrl,
         method: 'POST',
       },
-    },
+    ],
     items: items.map(item => ({
       ...item.toObject(),
-      _links: generateHateoasLinks(req, resource, item._id),
+      _links: generateHateoasLinks(req, item._id),
     })),
   };
 };
