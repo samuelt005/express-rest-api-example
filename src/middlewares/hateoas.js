@@ -1,4 +1,22 @@
-export const generateHateoasLinks = (req, id) => {
+import httpStatus from "http-status";
+
+export default (req, res, next) => {
+  res.hateoas_item = (data) => {
+    console.log(data)
+    res.status(httpStatus.OK).json({
+      ...data._doc,
+      _links: generateHateoasLinks(req, data._id),
+    });
+  }
+
+  res.hateoas_list = (data) => {
+    res.status(httpStatus.OK).json(generateHateoasCollection(req, data));
+  }
+
+  next();
+}
+
+const generateHateoasLinks = (req, id) => {
   return [
     {
       rel: "self",
@@ -23,7 +41,7 @@ export const generateHateoasLinks = (req, id) => {
   ];
 };
 
-export const generateHateoasCollection = (req, items) => {
+const generateHateoasCollection = (req, items) => {
   return {
     count: items.length,
     _links: [
@@ -38,7 +56,7 @@ export const generateHateoasCollection = (req, items) => {
         method: 'POST',
       },
     ],
-    items: items.map(item => ({
+    data: items.map(item => ({
       ...item.toObject(),
       _links: generateHateoasLinks(req, item._id),
     })),

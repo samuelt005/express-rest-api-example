@@ -1,9 +1,5 @@
 import User from '../models/userModel.js';
 import httpStatus from 'http-status';
-import {
-  generateHateoasCollection,
-  generateHateoasLinks,
-} from '../services/hateoasService.js';
 
 export const showUser = async (req, res, next) => {
   try {
@@ -13,12 +9,9 @@ export const showUser = async (req, res, next) => {
       return res.status(httpStatus.NOT_FOUND).json({message: 'Usuário não encontrado'});
     }
 
-    res.status(httpStatus.OK).json({
-      ...user.toObject(),
-      _links: generateHateoasLinks(req, user._id),
-    });
+    res.hateoas_item(user);
   } catch (err) {
-    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
+    next(err);
   }
 };
 
@@ -26,22 +19,19 @@ export const listUsers = async (req, res, next) => {
   try {
     const users = await User.find();
 
-    res.status(httpStatus.OK).json(generateHateoasCollection(req, users));
+    res.hateoas_list(users);
   } catch (err) {
-    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
+    next(err);
   }
 };
 
 export const createUser = async (req, res, next) => {
   try {
-    const newUser = await User.create(req.body);
+    await User.create(req.body);
 
-    res.status(httpStatus.CREATED).json({
-      ...newUser.toObject(),
-      _links: generateHateoasLinks(req, newUser._id),
-    });
+    res.status(httpStatus.CREATED).json();
   } catch (err) {
-    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
+    next(err);
   }
 };
 
@@ -56,12 +46,9 @@ export const editUser = async (req, res, next) => {
 
     const updatedUser = await User.findByIdAndUpdate(req.params, req.body, {new: true});
 
-    res.status(httpStatus.OK).json({
-      ...updatedUser.toObject(),
-      _links: generateHateoasLinks(req, updatedUser._id),
-    });
+    res.hateoas_item(updatedUser);
   } catch (err) {
-    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
+    next(err);
   }
 };
 
@@ -77,6 +64,6 @@ export const deleteUser = async (req, res, next) => {
 
     res.status(httpStatus.OK).send();
   } catch (err) {
-    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: err.message});
+    next(err);
   }
 };
