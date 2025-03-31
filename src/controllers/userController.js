@@ -2,7 +2,9 @@ import User from '../models/userModel.js';
 
 export const showUser = async (req, res, next) => {
   try {
-    const user = await User.findOne(req.params);
+    const {_id} = req.params;
+
+    const user = await User.findOne({_id});
 
     if (!user) {
       return res.notFoundResponse();
@@ -16,9 +18,20 @@ export const showUser = async (req, res, next) => {
 
 export const listUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    const {_page, _size} = req.query;
+    const page = parseInt(_page) || 1;
+    const size = parseInt(_size) || 10;
+    const offset = (page - 1) * size;
 
-    res.hateoas_list(users);
+    const users = await User
+      .find()
+      .skip(offset)
+      .limit(size);
+
+    const totalUsers = await User.countDocuments();
+    const totalPages = Math.ceil(totalUsers / size);
+
+    res.hateoas_list(users, totalPages);
   } catch (err) {
     next(err);
   }
@@ -26,7 +39,13 @@ export const listUsers = async (req, res, next) => {
 
 export const createUser = async (req, res, next) => {
   try {
-    await User.create(req.body);
+    const {name, email, password} = req.body;
+
+    await User.create({
+      name,
+      email,
+      password
+    });
 
     res.createdResponse();
   } catch (err) {
@@ -36,13 +55,21 @@ export const createUser = async (req, res, next) => {
 
 export const editUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params._id);
+    const {name, email, password} = req.body;
+
+    const {_id} = req.params;
+
+    const user = await User.findById(_id);
 
     if (!user) {
       return res.notFoundResponse();
     }
 
-    const updatedUser = await User.findByIdAndUpdate(req.params, req.body, {new: true});
+    const updatedUser = await User.findByIdAndUpdate(
+      {_id},
+      {name, email, password},
+      {new: true}
+    );
 
     res.hateoas_item(updatedUser);
   } catch (err) {
@@ -52,13 +79,15 @@ export const editUser = async (req, res, next) => {
 
 export const deleteUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params._id);
+    const {_id} = req.params;
+
+    const user = await User.findById(_id);
 
     if (!user) {
       return res.notFoundResponse();
     }
 
-    await User.deleteOne(req.params);
+    await User.deleteOne({_id});
 
     res.noContentResponse();
   } catch (err) {

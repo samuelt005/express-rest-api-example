@@ -8,8 +8,8 @@ export default (req, res, next) => {
     });
   }
 
-  res.hateoas_list = (data) => {
-    res.okResponse(generateHateoasCollection(req, data));
+  res.hateoas_list = (data, totalPages) => {
+    res.okResponse(generateHateoasCollection(req, data, totalPages));
   }
 
   next();
@@ -40,9 +40,17 @@ const generateHateoasLinks = (req, id) => {
   ];
 };
 
-const generateHateoasCollection = (req, items) => {
+const generateHateoasCollection = (req, items, totalPages) => {
+  const {_page, _size} = req.query;
+  const page = parseInt(_page) || 1;
+  const size = parseInt(_size) || 10;
+
   return {
-    count: items.length,
+    _page: {
+      current: page,
+      total: totalPages,
+      size: items.length,
+    },
     _links: [
       {
         rel: "self",
@@ -53,6 +61,16 @@ const generateHateoasCollection = (req, items) => {
         rel: "create",
         href: req.baseUrl,
         method: 'POST',
+      },
+      {
+        rel: "previous",
+        href: page > 1 ? `${req.baseUrl}?_page=${page - 1}&_size=${size}` : null,
+        method: 'GET',
+      },
+      {
+        rel: "next",
+        href: page < totalPages ? `${req.baseUrl}?_page=${page + 1}&_size=${size}` : null,
+        method: 'GET',
       },
     ],
     data: items.map(item => ({
