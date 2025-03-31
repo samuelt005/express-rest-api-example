@@ -18,15 +18,16 @@ export const showUser = async (req, res, next) => {
 
 export const listUsers = async (req, res, next) => {
   try {
-    const {_page, _size} = req.query;
+    const {_page, _size, _order, ...filter} = req.query;
     const page = parseInt(_page) || 1;
     const size = parseInt(_size) || 10;
     const offset = (page - 1) * size;
 
     const users = await User
-      .find()
+      .find(filter)
       .skip(offset)
-      .limit(size);
+      .limit(size)
+      .sort(_order)
 
     const totalUsers = await User.countDocuments();
     const totalPages = Math.ceil(totalUsers / size);
@@ -40,6 +41,8 @@ export const listUsers = async (req, res, next) => {
 export const createUser = async (req, res, next) => {
   try {
     const {name, email, password} = req.body;
+
+    console.log(name, email, password)
 
     await User.create({
       name,

@@ -9,6 +9,7 @@ import database from "./config/database.js";
 import routes from "./routes.js";
 import hateoas from "./middlewares/hateoas.js";
 import handlers from "./middlewares/handlers.js";
+import order from "./middlewares/order.js";
 
 dotenv.config();
 database.config(process.env.DATABASE);
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(handlers);
 app.use(hateoas);
+app.use(order);
 app.use(routes);
 
 export default app;
