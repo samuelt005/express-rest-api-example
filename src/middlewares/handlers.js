@@ -17,5 +17,11 @@ export default (req, res, next) => {
     res.status(httpStatus.NOT_FOUND).json({message: 'Not found'});
   }
 
+  res.internalServerError = (err) => {
+    res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .json(err);
+  }
+
   next();
 }
