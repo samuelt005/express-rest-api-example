@@ -29,8 +29,8 @@ export const listUsers = async (req, res, next) => {
       .limit(size)
       .sort(_order)
 
-    const totalUsers = await User.countDocuments();
-    const totalPages = Math.ceil(totalUsers / size);
+    const totalItems = await User.countDocuments();
+    const totalPages = Math.ceil(totalItems / size);
 
     res.hateoas_list(users, totalPages);
   } catch (err) {
@@ -41,8 +41,6 @@ export const listUsers = async (req, res, next) => {
 export const createUser = async (req, res, next) => {
   try {
     const {name, email, password} = req.body;
-
-    console.log(name, email, password)
 
     await User.create({
       name,
