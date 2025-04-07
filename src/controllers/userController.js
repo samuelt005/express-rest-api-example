@@ -1,6 +1,13 @@
 import User from '../models/userModel.js';
 
 export const showUser = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Users"]
+  #swagger.responses[200]
+  #swagger.responses[404] = {
+    schema: { $ref: "#/definitions/NotFound" }
+  }
+  */
   try {
     const {_id} = req.params;
 
@@ -17,6 +24,22 @@ export const showUser = async (req, res, next) => {
 };
 
 export const listUsers = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Users"]
+  #swagger.responses[200] = {
+    schema: {
+      _page: { $ref: "#/definitions/Page" },
+      _links: [
+        { $ref: "#/definitions/HateoasLink" }
+      ],
+      data: [
+        {
+          $ref: "#/definitions/User"
+        }
+      ]
+    }
+  }
+  */
   try {
     const {_page, _size, _order, ...filter} = req.query;
     const page = parseInt(_page) || 1;
@@ -39,6 +62,14 @@ export const listUsers = async (req, res, next) => {
 };
 
 export const createUser = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Users"]
+  #swagger.requestBody = {
+    required: true,
+    schema: { $ref: "#/definitions/CreateOrUpdateUser" }
+  }
+  #swagger.responses[200]
+  */
   try {
     const {name, email, password} = req.body;
 
@@ -55,6 +86,21 @@ export const createUser = async (req, res, next) => {
 };
 
 export const editUser = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Users"]
+  #swagger.requestBody = {
+    required: true,
+    schema: { $ref: "#/definitions/CreateOrUpdateUser" }
+  }
+  #swagger.responses[200] = {
+    schema: {
+      $ref: "#/definitions/User"
+    }
+  }
+  #swagger.responses[404] = {
+    schema: { $ref: "#/definitions/NotFound" }
+  }
+  */
   try {
     const {name, email, password} = req.body;
 
@@ -79,6 +125,13 @@ export const editUser = async (req, res, next) => {
 };
 
 export const deleteUser = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Users"]
+  #swagger.responses[204]
+  #swagger.responses[404] = {
+    schema: { $ref: "#/definitions/NotFound" }
+  }
+  */
   try {
     const {_id} = req.params;
 

@@ -7,6 +7,11 @@ export default (schema) => (req, res, next) => {
 
     next();
   } catch (err) {
+    /*
+    #swagger.responses[402] = {
+      schema: { $ref: "#/definitions/PaymentRequired" }
+    }
+    */
     res.paymentRequired({
       message: err.message,
       errors: err.errors

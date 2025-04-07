@@ -1,6 +1,13 @@
 import Product from '../models/productModel.js';
 
 export const showProduct = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Products"]
+  #swagger.responses[200]
+  #swagger.responses[404] = {
+    schema: { $ref: "#/definitions/NotFound" }
+  }
+  */
   try {
     const {_id} = req.params;
 
@@ -17,6 +24,10 @@ export const showProduct = async (req, res, next) => {
 };
 
 export const listProducts = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Products"]
+  #swagger.responses[200]
+  */
   try {
     const {_page, _size, _order, ...filter} = req.query;
     const page = parseInt(_page) || 1;
@@ -39,6 +50,14 @@ export const listProducts = async (req, res, next) => {
 };
 
 export const createProduct = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Products"]
+  #swagger.requestBody = {
+    required: true,
+    schema: { $ref: "#/definitions/Product" }
+  }
+  #swagger.responses[200]
+  */
   try {
     const {name, description, price} = req.body;
 
@@ -55,6 +74,17 @@ export const createProduct = async (req, res, next) => {
 };
 
 export const editProduct = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Products"]
+  #swagger.requestBody = {
+    required: true,
+    schema: { $ref: "#/definitions/Product" }
+  }
+  #swagger.responses[200]
+  #swagger.responses[404] = {
+    schema: { $ref: "#/definitions/NotFound" }
+  }
+  */
   try {
     const {name, description, price} = req.body;
 
@@ -79,6 +109,13 @@ export const editProduct = async (req, res, next) => {
 };
 
 export const deleteProduct = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Products"]
+  #swagger.responses[204]
+  #swagger.responses[404] = {
+    schema: { $ref: "#/definitions/NotFound" }
+  }
+  */
   try {
     const {_id} = req.params;
 

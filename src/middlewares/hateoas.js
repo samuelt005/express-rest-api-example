@@ -1,7 +1,13 @@
 import httpStatus from "http-status";
 
 export default (req, res, next) => {
+  /*
+  #swagger.ignore = true
+   */
   res.hateoas_item = (data) => {
+    /*
+    #swagger.ignore = true
+    */
     res.okResponse({
       ...data._doc,
       _links: generateHateoasLinks(req, data._id),

@@ -18,6 +18,11 @@ export default (req, res, next) => {
   }
 
   res.internalServerError = (err) => {
+    /*
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/InternalServerError" }
+    }
+    */
     res
       .status(httpStatus.INTERNAL_SERVER_ERROR)
       .json(err);
