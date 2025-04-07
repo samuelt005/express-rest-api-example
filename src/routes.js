@@ -15,8 +15,8 @@ routes.use(hateoas);
 routes.use(handlers);
 routes.use(order);
 
-routes.use("api/users", userRouter);
-routes.use("api/products", productRouter);
+routes.use("/api/users", userRouter);
+routes.use("/api/products", productRouter);
 
 routes.use(InternalServerError)
 routes.use(NotFound)
