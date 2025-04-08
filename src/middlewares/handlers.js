@@ -35,6 +35,11 @@ export default (req, res, next) => {
   }
 
   res.unauthorized = () => {
+    /*
+    #swagger.responses[401] = {
+      schema: { $ref: "#/definitions/Unauthorized" }
+    }
+    */
     res
       .status(httpStatus.UNAUTHORIZED)
       .send();

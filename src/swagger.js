@@ -19,6 +19,9 @@ const doc = {
       }
     },
     schemas: {
+      Unauthorized: {
+        code: "401",
+      },
       NotFound: {
         code: "404",
         message: "",
