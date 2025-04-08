@@ -75,6 +75,11 @@ const doc = {
           {$ref: "#/components/schemas/HateoasLink"}
         ]
       },
+      CreateOrUpdateProduct: {
+        name: "product name",
+        description: "product description",
+        price: 100.00,
+      },
     }
   }
 };

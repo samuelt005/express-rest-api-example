@@ -632,12 +632,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
+                "$ref": "#/components/schemas/CreateOrUpdateProduct"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
+                "$ref": "#/components/schemas/CreateOrUpdateProduct"
               }
             }
           }
@@ -806,12 +806,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
+                "$ref": "#/components/schemas/CreateOrUpdateProduct"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
+                "$ref": "#/components/schemas/CreateOrUpdateProduct"
               }
             }
           }
@@ -1114,6 +1114,26 @@
         },
         "xml": {
           "name": "Product"
+        }
+      },
+      "CreateOrUpdateProduct": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "product name"
+          },
+          "description": {
+            "type": "string",
+            "example": "product description"
+          },
+          "price": {
+            "type": "number",
+            "example": 100
+          }
+        },
+        "xml": {
+          "name": "CreateOrUpdateProduct"
         }
       }
     }

@@ -54,7 +54,7 @@ export const createProduct = async (req, res, next) => {
   #swagger.tags = ["Products"]
   #swagger.requestBody = {
     required: true,
-    schema: { $ref: "#/definitions/Product" }
+    schema: { $ref: "#/definitions/CreateOrUpdateProduct" }
   }
   #swagger.responses[200]
   */
@@ -78,7 +78,7 @@ export const editProduct = async (req, res, next) => {
   #swagger.tags = ["Products"]
   #swagger.requestBody = {
     required: true,
-    schema: { $ref: "#/definitions/Product" }
+    schema: { $ref: "#/definitions/CreateOrUpdateProduct" }
   }
   #swagger.responses[200]
   #swagger.responses[404] = {
