@@ -12,6 +12,12 @@ const doc = {
     }
   ],
   components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: "http",
+        scheme: "bearer"
+      }
+    },
     schemas: {
       NotFound: {
         code: "404",
@@ -34,6 +40,10 @@ const doc = {
         rel: "rel",
         href: "/api/endpoint",
         method: "METHOD"
+      },
+      Login: {
+        email: "example@email.com",
+        password: "abcd1234"
       },
       User: {
         _id: "_id",

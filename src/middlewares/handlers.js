@@ -34,5 +34,11 @@ export default (req, res, next) => {
       .json(err);
   }
 
+  res.unauthorized = () => {
+    res
+      .status(httpStatus.UNAUTHORIZED)
+      .send();
+  }
+
   next();
 }

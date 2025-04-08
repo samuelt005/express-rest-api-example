@@ -1,5 +1,27 @@
 import User from '../models/userModel.js';
 
+export const login = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Users"]
+   #swagger.requestBody = {
+    required: true,
+    schema: { $ref: "#/definitions/Login" }
+  }
+  #swagger.responses[200]
+  #swagger.responses[401]
+  */
+  try {
+  req.user = await User.findOne({
+    email: req.body.email,
+    password: req.body.email,
+  });
+
+  next();
+  } catch (err) {
+    next(err);
+  }
+}
+
 export const showUser = async (req, res, next) => {
   /*
   #swagger.tags = ["Users"]

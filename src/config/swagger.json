@@ -11,6 +11,52 @@
     }
   ],
   "paths": {
+    "/login/": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users/": {
       "get": {
         "tags": [
@@ -88,7 +134,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -130,6 +181,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -197,7 +253,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -276,6 +337,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -341,7 +407,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
       }
     },
     "/api/products/": {
@@ -399,7 +470,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -441,6 +517,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -508,7 +589,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -575,6 +661,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -640,11 +731,22 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
       }
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
     "schemas": {
       "NotFound": {
         "type": "object",
@@ -732,6 +834,22 @@
         },
         "xml": {
           "name": "HateoasLink"
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "example@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "abcd1234"
+          }
+        },
+        "xml": {
+          "name": "Login"
         }
       },
       "User": {
