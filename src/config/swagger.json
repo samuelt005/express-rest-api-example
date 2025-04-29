@@ -149,12 +149,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -211,11 +206,6 @@
             }
           }
         },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -298,12 +288,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
+        }
       },
       "put": {
         "tags": [
@@ -397,11 +382,6 @@
             }
           }
         },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -482,12 +462,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
+        }
       }
     },
     "/api/products/": {
@@ -560,12 +535,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -622,11 +592,6 @@
             }
           }
         },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -709,12 +674,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
+        }
       },
       "put": {
         "tags": [
@@ -796,11 +756,6 @@
             }
           }
         },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -881,12 +836,159 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
+        }
+      }
+    },
+    "/api/tasks/": {
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
           }
-        ]
+        }
+      },
+      "post": {
+        "tags": [
+          "Tasks"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Task"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Task"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks/{_id}/done": {
+      "patch": {
+        "tags": [
+          "Tasks"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -1134,6 +1236,18 @@
         },
         "xml": {
           "name": "CreateOrUpdateProduct"
+        }
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "xml": {
+          "name": "Task"
         }
       }
     }

@@ -80,6 +80,9 @@ const doc = {
         description: "product description",
         price: 100.00,
       },
+      Task: {
+        description: ""
+      }
     }
   }
 };

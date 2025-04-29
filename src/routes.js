@@ -9,6 +9,7 @@ import NotFound from './routes/helper/404.js'
 import authRouter from './routes/authRouter.js'
 import userRouter from './routes/userRouter.js'
 import productRouter from "./routes/productRouter.js";
+import taskRouter from "./routes/taskRouter.js";
 import {verify} from "./controllers/authController.js";
 
 const routes = Router();
@@ -18,8 +19,9 @@ routes.use(handlers);
 routes.use(order);
 
 routes.use("/login", authRouter);
-routes.use("/api/users", verify, userRouter);
-routes.use("/api/products", verify, productRouter);
+routes.use("/api/users", /*verify,*/ userRouter);
+routes.use("/api/products", /*verify,*/ productRouter);
+routes.use("/api/tasks", /*verify,*/ taskRouter);
 
 routes.use(InternalServerError)
 routes.use(NotFound)
